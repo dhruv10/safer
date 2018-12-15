@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>safer</title>
+  <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="uikit/css/uikit.min.css" />
+        <script src="uikit/js/uikit.min.js"></script>
+        <script src="uikit/js/uikit-icons.min.js"></script>
+  <script src="https://apis.mapmyindia.com/advancedmaps/v1/johah6l4vhp5172c7pipqeo9xbvad9mv/map_load?v1.1">
+  </script>
+  <style> html, body, #map {margin: 0;padding: 0;width: 100%;height: 300px;} </style>
+</head>
+
+<body>
+  <!-- Top Card -->
+  <div class="uk-card uk-card-primary uk-card-body uk-width-1-2@m">
+      <!-- <center><h3 class="uk-card-title">Safer</h3></center> -->
+        <form>
+          <div class="uk-margin">
+                <input class="uk-input" type="text" placeholder="Source">
+            </div>
+          <div class="uk-margin">
+                <input class="uk-input" type="text" placeholder="Destination">
+            </div>
+         <!--  <select class="uk-select">
+              <option>Drive</option>
+              <option>Walk</option>
+          </select> -->
+          <div class="uk-margin">
+          <ul uk-tab>
+            <li class="uk-active"><a href="#">Drive</a></li>
+            <li><a href="#">Walk</a></li>
+        </ul>
+        </div>
+      </form>
+  </div>
+
+  <!-- Map -->
+  <div id="map"></div>
+
+  <!-- BottomNavBar -->
+  
+<!-- div uk-grid >
+    <div class="uk-width-auto" >
+      <p uk-margin>
+        <button class="uk-button uk-button-primary uk-button-small">Exit</button>
+    </p>
+    </div>
+    <div class="uk-width-auto" >
+      <p uk-margin>
+        <button class="uk-button uk-button-primary uk-button-small">Logo</button>
+    </p>
+    </div>
+    <div class="uk-width-auto" >
+      <p uk-margin>
+        <button class="uk-button uk-button-primary uk-button-small">Navigation</button>
+    </p>
+    </div>
+</div> -->
+<div uk-grid>
+  <div class="uk-width-1-1">
+    
+  </div>  
+</div>
+
+</body>
+<script>
+  var map=new MapmyIndia.Map("map",{ center:[28.61, 77.23],zoomControl: true,hybrid:true,location:true });
+</script>
+</html>
+
+<footer class="blue page-footer" >
+          <div class="container" >
+            <div class="row" >
+              <div class="col l6 s12" >
+               
+              </div>
+              <div class="col 14 offset-l2 s12 " >
+                    <div uk-grid >
+                            <div class="uk-width-1-3">
+                            <!-- <a class="waves-effect waves-light btn" >button </a> -->
+                             <button class="white btn-font-mshack uk-button uk-button-default uk-button-small">Exit</button>
+                            </div>
+                            <!-- <div class="uk-width-1-3"><img src="logo.png" style="height:50px; width:200px;"> -->
+                            <!-- </div> -->
+                            <div class="uk-width-1-3">
+                              <!-- <a class="waves-effect waves-light btn" >button </a> -->
+                            <button class="white uk-button uk-button-default uk-button-small">Start</button>
+                            </div>
+                        </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </footer>

@@ -1,0 +1,12 @@
+{
+  "name": "Safer",
+  "short_name": "Safer",
+  "scope": "./",
+  "icons": {
+    "src": "mainicon.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  },
+  "display": "standalone",
+  "start_url": "./"
+}
