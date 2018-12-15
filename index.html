@@ -54,8 +54,8 @@
                 </div>
                 <div class="uk-margin">
           <ul uk-tab>
-            <li class="uk-active"><a href="#">Drive</a></li>
-            <li><a href="#">Walk</a></li>
+            <li onclick="drive()" class="uk-active"><a href="#">Drive</a></li>
+            <li onclick="walk()"><a href="#">Walk</a></li>
           </ul>
           </div>
         </form>
@@ -79,23 +79,35 @@
 </body>
 <script>
 	var xhttp = new XMLHttpRequest();
+    vehicle = 1;
+
+	function drive() {
+		vehicle = 1;
+		console.log('driving')
+	}
+
+	function walk() {
+		vehicle = 0;
+		console.log('walking')
+	}
 
 	function clg(){
 		console.log("hello world!");
 		var x = document.getElementById('source').value;
 		var y = document.getElementById('destination').value;
-		// console.log(x + ' to ' + y);
-		// xhttp.open("GET", "ajax_info.txt", true);
-		// xhttp.send();
 		console.log(x)
+		console.log(y)
 
-		
+		//source lat-lng
 		fetch('https://apis.mapmyindia.com/advancedmaps/v1/2uaretpcaejax8iwczcujpky7kbazped/geo_code?addr=' + x)
-  			.then((resp) => resp.json())
+  			.then((resp) => {resp.json().then(data => {console.log(data.results[0].lat, data.results[0].lng, vehicle)})})
   			.catch((err) => console.log(err)) 
 		
-  			
-	
+		//destination lat-lng
+  		fetch('https://apis.mapmyindia.com/advancedmaps/v1/2uaretpcaejax8iwczcujpky7kbazped/geo_code?addr=' + y)
+  			.then((resp) => {resp.json().then(data => {console.log(data.results[0].lat, data.results[0].lng, vehicle)})})
+  			.catch((err) => console.log(err)) 
+		
 	}
 
     var map=new MapmyIndia.Map("map",{ center:[28.61, 77.23],zoomControl: true,hybrid:true,location:true });
