@@ -47,18 +47,18 @@
     <div class="custom-form uk-card uk-card-primary uk-card-body uk-width-1-1">
         <form>
                <div class="uk-margin">
-                    <input class="uk-input" type="text" placeholder="Source">
+                    <input id="source" class="uk-input" type="text" placeholder="Source">
                 </div>
                 <div class="uk-margin">
-                    <input class="uk-input" type="text" placeholder="Destination">
+                    <input id="destination" class="uk-input" type="text" placeholder="Destination">
                 </div>
                 <div class="uk-margin">
           <ul uk-tab>
             <li class="uk-active"><a href="#">Drive</a></li>
             <li><a href="#">Walk</a></li>
-        </ul>
-        </div>
-            </form>
+          </ul>
+          </div>
+        </form>
     </div>
  
     <div id="map"></div>
@@ -78,10 +78,26 @@
    
 </body>
 <script>
+	var xhttp = new XMLHttpRequest();
+
 	function clg(){
-	console.log("hello world!");
-	}
+		console.log("hello world!");
+		var x = document.getElementById('source').value;
+		var y = document.getElementById('destination').value;
+		// console.log(x + ' to ' + y);
+		// xhttp.open("GET", "ajax_info.txt", true);
+		// xhttp.send();
+		console.log(x)
+
+		
+		fetch('https://apis.mapmyindia.com/advancedmaps/v1/2uaretpcaejax8iwczcujpky7kbazped/geo_code?addr=' + x)
+  			.then((resp) => resp.json())
+  			.catch((err) => console.log(err)) 
+		
+  			
 	
+	}
+
     var map=new MapmyIndia.Map("map",{ center:[28.61, 77.23],zoomControl: true,hybrid:true,location:true });
 		     var latlngs = [
 		    [28.110999536368, 77.110999971628],
@@ -94,11 +110,11 @@
 		// zoom the map to the polyline
 		map.fitBounds(polyline.getBounds());
 
-	if('serviceWorker' in navigator) {
-	  navigator.serviceWorker
-	           .register('/sw.js')
-	           .then(function() { console.log("Service Worker Registered"); });
-	}	
+	// if('serviceWorker' in navigator) {
+	//   navigator.serviceWorker
+	//            .register('/sw.js')
+	//            .then(function() { console.log("Service Worker Registered"); });
+	// }	
 </script>
 </html>
 
