@@ -78,8 +78,13 @@
    
 </body>
 <script>
-	var xhttp = new XMLHttpRequest();
     vehicle = 1;
+	let slat = "";
+	let slong = "";
+	let dlat = "";
+	let dlong = "";
+	let s = "";
+	let d = "";
 
 	function drive() {
 		vehicle = 1;
@@ -91,36 +96,130 @@
 		console.log('walking')
 	}
 
-	function clg(){
+	async function clg(){
+
+
+
 		console.log("hello world!");
 		var x = document.getElementById('source').value;
 		var y = document.getElementById('destination').value;
+
 		console.log(x)
 		console.log(y)
 
 		//source lat-lng
-		fetch('https://apis.mapmyindia.com/advancedmaps/v1/2uaretpcaejax8iwczcujpky7kbazped/geo_code?addr=' + x)
-  			.then((resp) => {resp.json().then(data => {console.log(data.results[0].lat, data.results[0].lng, vehicle)})})
+		await fetch('https://apis.mapmyindia.com/advancedmaps/v1/2uaretpcaejax8iwczcujpky7kbazped/geo_code?addr=' + x)
+  			.then((resp) => {resp.json().then(data => {
+  				slat = manipulate(data.results[0].lat);
+  				slong = manipulate(data.results[0].lng)
+  						s = slat.toString() + "," +  slong.toString();
+
+  				console.log(s)
+  				// console.log(typeof(s))
+  			})})
   			.catch((err) => console.log(err)) 
-		
+
+
 		//destination lat-lng
-  		fetch('https://apis.mapmyindia.com/advancedmaps/v1/2uaretpcaejax8iwczcujpky7kbazped/geo_code?addr=' + y)
-  			.then((resp) => {resp.json().then(data => {console.log(data.results[0].lat, data.results[0].lng, vehicle)})})
+  		await fetch('https://apis.mapmyindia.com/advancedmaps/v1/2uaretpcaejax8iwczcujpky7kbazped/geo_code?addr=' + y)
+  			.then((resp) => {resp.json().then(data => {
+  				dlat = manipulate(data.results[0].lat);
+  				dlong = manipulate(data.results[0].lng);
+  				  		d = dlat.toString() + "," + dlong.toString();
+  				  		console.log(d)
+  				  		console.log(typeof(dlong))
+  				  		getJSON(s,d);
+
+  				
+  			})})
   			.catch((err) => console.log(err)) 
+  		// console.log(d)
+
+  		// await getJSON(s,d);
+	}
+	function manipulate(x){
+		x = parseFloat(x);
+		x = Math.floor(x*100)/100;
+		return x
+	}
+	let data;
+	// var m=new MapmyIndia.Map("map",{ center:[28.61, 77.23],zoomControl: true,hybrid:true,location:true });
+	async function getJSON(s,d) {
+		let url;
+		url = 'https://70ef47ac.ngrok.io/directions?source=' + s + '&destination=' + d + '&vtype=' + vehicle;
+		console.log(url);
+	 fetch(url).then(res => res.json()).then((data) => {data = data;	
+														  		// console.log(data)
+														  		plotmap(data)
+	})
+
+		// plotmap(data);
+	}
+
+
+
+	function plotmap(data) {
+
+		console.log(data)
+		all_paths = data.all_paths.reverse();
+		// console.log(data.all_paths[0].path[0])
+
+		// for(int i =){
+		// 	if(data.all_paths[1].type[0] == 'shortest'){
+		// 		console.log(123456678)
+		// 	}
+		// }
+		// var all_paths = Object.keys(data).map(function(key) {
+		//   return [Number(key), data[key]];
+		// });
+
+		// console.log(result);
+		// console.log(all_paths.length())
+		// console.log(typeof(all_paths))
 		
+		ctr = 0;
+		colors = ['blue','green'];
+		for( i=0; i<all_paths.length;i++){
+
+			if(data.all_paths[i].type[0] != 'safest' && data.all_paths[i].type[1] != 'safest'  ){
+				// plot(data.all_paths[i].path);
+				// console.log(data.all_paths[i].path);
+				// console.log(i)
+				plot(data.all_paths[i].path,colors[ctr]);
+				ctr++;
+			} 
+			if(ctr == 2)
+					break;
+		}
+
+		// latlngs = [data.all_paths[0].path[0],data.all_paths[0].path[1]];
+		// polyline = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+		// // zoom the map to the polyline
+		// map.fitBounds(polyline.getBounds());
+
+	}
+
+
+
+	function plot(cordinates,color) {
+		// map.removeLayer({});
+
+		latlngs = cordinates;
+		polyline = L.polyline(latlngs, {color: color}).addTo(map);
+		// // zoom the map to the polyline
+		map.fitBounds(polyline.getBounds());
 	}
 
     var map=new MapmyIndia.Map("map",{ center:[28.61, 77.23],zoomControl: true,hybrid:true,location:true });
-		     var latlngs = [
-		    [28.110999536368, 77.110999971628],
-		    [28.109679408467, 77.112575769424],
-		    [28.113417362901, 77.11571931839],
-		    [28.118139301368, 77.130321264267],
-
+		var latlngs = [
+		    // [28.110999536368, 77.110999971628],
+		    // [28.109679408467, 77.112575769424],
+		    // [28.113417362901, 77.11571931839],
+		    // [28.118139301368, 77.130321264267]
 		];
 		var polyline = L.polyline(latlngs, {color: 'blue'}).addTo(map);
 		// zoom the map to the polyline
-		map.fitBounds(polyline.getBounds());
+		// map.fitBounds(polyline.getBounds());
 
 	// if('serviceWorker' in navigator) {
 	//   navigator.serviceWorker
